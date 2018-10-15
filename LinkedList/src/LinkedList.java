@@ -2,7 +2,7 @@
  * Created by Zhongshan on 2018/10/13.
  */
 public class LinkedList<E> {
-    private class Node {
+    public class Node {
         public E e;
         public Node next;
 
@@ -33,9 +33,45 @@ public class LinkedList<E> {
         size = 0;
     }
 
+    public static boolean isPalindrome(LinkedList.Node head) {
+        if (head == null || head.next == null) {
+            return true;
+        }
+        LinkedList.Node prev = null;
+        LinkedList.Node slow = head;
+        LinkedList.Node fast = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            // 反转前半段链表
+            LinkedList.Node next = slow.next;
+            slow.next = prev;
+            prev = slow;
+            slow = next;
+        }
+
+        // 节点数目为偶数的情况
+        if (fast != null) {
+            slow = slow.next;
+        }
+
+        while (slow != null) {
+            if (slow.e != prev.e) {
+                return false;
+            }
+            slow = slow.next;
+            prev = prev.next;
+        }
+        return true;
+
+    }
+
     // 获取链表元素的个数
     public int getSize () {
         return size;
+    }
+
+    public Node getHead () {
+        return dummyHead.next;
     }
 
     // 链表是否为空
@@ -110,10 +146,10 @@ public class LinkedList<E> {
         return false;
     }
 
-    // 从链表中删除index位置的元素，返回删除的元素
-    public E remove (int index) {
-        
-    }
+//    // 从链表中删除index位置的元素，返回删除的元素
+//    public E remove (int index) {
+//
+//    }
 
     @Override
     public String toString () {
